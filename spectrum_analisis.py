@@ -43,6 +43,10 @@ def main():
 
             src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}*.reg") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc.reg
             bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}*.reg")
+
+            if not src_file or not bkg_file:
+                print(f"Skipping {pfile}: Missing source or background .reg files.")
+                continue
             
             fxt = [
                 "fxtchain",
@@ -55,24 +59,16 @@ def main():
                 f"src{obs_mod}region={src_file[0]}",
                 f"bkg{obs_mod}region={bkg_file[0]}"
             ]
-
             
             print(f"Command: {fxt}")
 
             try:
-                    subprocess.run(fxt, check=True)
-                    
-                except subprocess.CalledProcessError as e:
-                    print(f"fxtchain error on {pfile}. Return code: {e.returncode}")
-                    
-                except FileNotFoundError:
-                    print("Error: 'fxtchain' command not found in PATH.")
-                    
-                except Exception as e:
-                    print(f"Unexpected error: {e}")
-                    
-            else:
-                print(f"Skipping {pfile}: Missing .reg files.")
+                subprocess.run(fxt, check=True)
+            except subprocess.CalledProcessError as error:
+                print(f"fxtchain error on {pfile}. Return code: {error.returncode}")
+            except FileNotFoundError:
+                print("Error: 'fxtchain' command not found in PATH.")
+                return
         
 if __name__ == "__main__":
     main()

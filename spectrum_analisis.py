@@ -78,25 +78,25 @@ def main():
 
 # 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
         
-        grp = [
-            "grppha",
-            f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
-            f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
-            (f"comm=group min 25 & "
-            f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_bkg_{lev}.pha & "
-            f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.rmf & "
-            f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.arf & exit")
-        ]
-                # at least 25 counts per bin so that we can use gaussian statistics
-                # e.g. fxt_b_06800000900_ff_01_po_bkg_3dc.pha
-                # e.g. fxt_b_06800000900_ff_01_po_src_3dc.rmf
-        try:
-            subprocess.run(grp, check=True)
-        except subprocess.CalledProcessError as error:
-            print(f"grppha error on {pfile}. Return code: {error.returncode}")
-        except FileNotFoundError:
-            print("Error: 'grppha' command not found in PATH.")
-            return
+            grp = [
+                "grppha",
+                f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
+                f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
+                (f"comm=group min 25 & "
+                f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_bkg_{lev}.pha & "
+                f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.rmf & "
+                f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.arf & exit")
+            ]
+                    # at least 25 counts per bin so that we can use gaussian statistics
+                    # e.g. fxt_b_06800000900_ff_01_po_bkg_3dc.pha
+                    # e.g. fxt_b_06800000900_ff_01_po_src_3dc.rmf
+            try:
+                subprocess.run(grp, check=True)
+            except subprocess.CalledProcessError as error:
+                print(f"grppha error on {pfile}. Return code: {error.returncode}")
+            except FileNotFoundError:
+                print("Error: 'grppha' command not found in PATH.")
+                return
 
 if __name__ == "__main__":
     main()

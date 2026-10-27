@@ -39,13 +39,13 @@ def main():
             module = re.search(r'fxt_([a-b])_', pfile).group(1) 
             obs_mod = re.search(f'fxt_{module}_{obs_id}_([a-z]+)_', pfile).group(1) 
             
-            print(f"Encontrado módulo {module} y modo {obs_mod} para el archivo {pfile}")
+            print(f"Found module {module} and observation mode {obs_mod} for file {pfile}")
 
-            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}*.reg") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc.reg
-            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}*.reg")
+            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}*") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
+            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}*")
 
             if not src_file or not bkg_file:
-                print(f"Skipping {pfile}: Missing source or background .reg files.")
+                print(f"Skipping {pfile}: Missing corresponding source or background files.")
                 continue
             
             fxt = [

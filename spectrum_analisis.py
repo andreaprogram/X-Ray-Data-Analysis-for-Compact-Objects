@@ -74,37 +74,36 @@ def main():
 
             try:
                 subprocess.run(fxt, check=True)
+                
+# 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
+                group_min = args.group_min
+                group_cmd = f"group min {group_min}" if group_min is not None else "" #if some groupping was given, use it in grppha
+            
+                grp = [
+                    "grppha",
+                    f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
+                    f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
+                    (f"comm={group_cmd} & "
+                    f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_bkg_{lev}.pha & "
+                    f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.rmf & "
+                    f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.arf & exit")
+                ]
+                        # usually we will take at least 25 counts so to have gaussian statistics
+                        # e.g. fxt_b_06800000900_ff_01_po_bkg_3dc.pha
+                        # e.g. fxt_b_06800000900_ff_01_po_src_3dc.rmf
+                try:
+                    subprocess.run(grp, check=True)
+                    print(" ".join(grp))
+                except subprocess.CalledProcessError as error:
+                    print(f"grppha error on {pfile}. Return code: {error.returncode}")
+                except FileNotFoundError:
+                    print("Error: 'grppha' command not found in PATH.")
+                    return
+                
             except subprocess.CalledProcessError as error:
                 print(f"fxtchain error on {pfile}. Return code: {error.returncode}")
             except FileNotFoundError:
                 print("Error: 'fxtchain' command not found in PATH.")
-                return
-
-
-        
-
-# 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
-            group_min = args.group_min
-            group_cmd = f"group min {group_min}" if group_min is not None else "" #if some groupping was given, use it in grppha
-        
-            grp = [
-                "grppha",
-                f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
-                f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
-                (f"comm={group_cmd} & "
-                f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_bkg_{lev}.pha & "
-                f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.rmf & "
-                f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.arf & exit")
-            ]
-                    # usually we will take at least 25 counts so to have gaussian statistics
-                    # e.g. fxt_b_06800000900_ff_01_po_bkg_3dc.pha
-                    # e.g. fxt_b_06800000900_ff_01_po_src_3dc.rmf
-            try:
-                subprocess.run(grp, check=True)
-            except subprocess.CalledProcessError as error:
-                print(f"grppha error on {pfile}. Return code: {error.returncode}")
-            except FileNotFoundError:
-                print("Error: 'grppha' command not found in PATH.")
                 return
 
 if __name__ == "__main__":

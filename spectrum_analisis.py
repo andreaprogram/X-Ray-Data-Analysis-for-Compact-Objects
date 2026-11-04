@@ -38,16 +38,18 @@ def main():
         
         for pfile in products_files:
             # for a reference on the naming convention, check FXT Users Guide
-            module = re.search(r'fxt_([a-b])_', pfile).group(1) # a
-            obs_mod = re.search(f'fxt_{module}_{obs_id}_([a-z]+)_', pfile).group(1) #ff
-            filter = re.search(f'fxt_{module}_{obs_id}_{obs_mod}_(\d+)_', pfile).group(1) # 01
-            sat_mode = re.search(f'fxt_{module}_{obs_id}_{obs_mod}_{filter}_(\w+)_', pfile).group(1) # po
-            lev = re.search(f'fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_(\w+)', pfile).group(1) #3dc
+            module = re.search(rf'fxt_([a-b])_', pfile).group(1) # a
+            obs_mod = re.search(rf'fxt_{module}_{obs_id}_([a-z]+)_', pfile).group(1) #ff
+            filtr = re.search(rf'fxt_{module}_{obs_id}_{obs_mod}_(\d+)_', pfile).group(1) # 01
+            sat_mode = re.search(rf'fxt_{module}_{obs_id}_{obs_mod}_{filtr}_([a-z]+)_', pfile).group(1) # po
+            lev = re.search(rf'fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_cl_([a-z0-9]+)', pfile).group(1) #3dc
             
+            # print(module, obs_mod, filtr, sat_mode, lev)  
+              
             print(f"Found module {module} and observation mode {obs_mod} for file {pfile}")
   
-            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
-            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}")
+            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_cl_{lev}") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
+            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_cl_{lev}")
 
             if not src_file or not bkg_file:
                 print(f"Skipping {pfile}: Missing corresponding source or background files.")
@@ -77,8 +79,7 @@ def main():
                 return
 
 
-
-
+"""
 # 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
         
             grp = [
@@ -100,6 +101,6 @@ def main():
             except FileNotFoundError:
                 print("Error: 'grppha' command not found in PATH.")
                 return
-
+"""
 if __name__ == "__main__":
     main()

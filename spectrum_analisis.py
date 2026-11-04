@@ -46,9 +46,6 @@ def main():
             
             print(f"Found module {module} and observation mode {obs_mod} for file {pfile}")
   
-            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}*") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
-            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}*")
-
             src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
             bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}")
 

@@ -22,6 +22,8 @@ def main():
     parser.add_argument('-dec', '--dec', dest='dec', required=True,
                         type=float, help='Declination of the source (ej: 53.2405)')
 
+    parser.add_argument('-group_min', type=int, default=None, help='Minimum number of counts per bin to group (e.g.: 25)')
+
     args = parser.parse_args()
 
     folders = glob.glob(args.input_folder)
@@ -79,19 +81,22 @@ def main():
                 return
 
 
-"""
+        
+
 # 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
+            group_min = args.group_min
+            group_cmd = f"group min {group_min}" if group_min is not None else "" #if some groupping was given, use it in grppha
         
             grp = [
                 "grppha",
-                f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
-                f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
-                (f"comm=group min 25 & "
-                f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_bkg_{lev}.pha & "
-                f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.rmf & "
-                f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_src_{lev}.arf & exit")
+                f"infile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.pha",     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.pha
+                f"outfile=fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_{lev}_grp.pha",    # e.g. fxt_b_06800000900_ff_01_po_src_3dc_grp.pha
+                (f"comm={group_cmd} & "
+                f"chkey BACKFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_bkg_{lev}.pha & "
+                f"chkey RESPFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.rmf & "
+                f"chkey ANCRFILE fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_src_{lev}.arf & exit")
             ]
-                    # at least 25 counts per bin so that we can use gaussian statistics
+                    # usually we will take at least 25 counts so to have gaussian statistics
                     # e.g. fxt_b_06800000900_ff_01_po_bkg_3dc.pha
                     # e.g. fxt_b_06800000900_ff_01_po_src_3dc.rmf
             try:
@@ -101,6 +106,6 @@ def main():
             except FileNotFoundError:
                 print("Error: 'grppha' command not found in PATH.")
                 return
-"""
+
 if __name__ == "__main__":
     main()

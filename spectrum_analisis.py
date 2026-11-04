@@ -45,6 +45,9 @@ def main():
             lev = re.search(f'fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_(\w+)', pfile).group(1) #3dc
             
             print(f"Found module {module} and observation mode {obs_mod} for file {pfile}")
+  
+            src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}*") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
+            bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}*")
 
             src_file = glob.glob(f"{folder}/fxt/products/src_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}") # e.g. src_reg_fxt_a_06800000900_ff_01_po_cl_3dc
             bkg_file = glob.glob(f"{folder}/fxt/products/bkg_reg_fxt_{module}_{obs_id}_{obs_mod}_{filter}_{sat_mode}_cl_{lev}")
@@ -75,6 +78,9 @@ def main():
             except FileNotFoundError:
                 print("Error: 'fxtchain' command not found in PATH.")
                 return
+
+
+
 
 # 2. GROUP SOURCE, BACKGROUND, RESPONSE AND EFFECTIVE AREA FILES USING THE grppha COMMAND----------------------------------
         

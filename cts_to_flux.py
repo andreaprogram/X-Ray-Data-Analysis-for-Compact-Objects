@@ -61,6 +61,7 @@ def main():
         xs.AllData.clear()
         return flux/ctrt   # return: units of flux (erg/cm^2/s) per count rate (cts/s)
 
+    results = []
     for file in args.source_groupped:
         convert_ratio = get_ctrt_to_flux(source_spec=file, # source specrtum (after grppha)
                                     energy_l=args.energy_low,  # lower limit of energy in keV
@@ -69,7 +70,12 @@ def main():
                                     PhoIndex=args.PhoIndex,  # assumed photon index of the powerlaw
                                     get_unabs=True) # True: measures the upper limit before absorption
     
-        print('Conversion ratio for', file, ':', convert_ratio, 'erg*cm^{-2}/count')  # print the conversion ratio of count rate to flux
+        results.append(f"Conversion ratio for {file}: {convert_ratio} erg*cm^{{-2}}/count")  # store the conversion ratio of count rate to flux
+
+    print("\n--- CONVERSION RATIOS ---")
+    for res in results:
+        print(res)
+        
 if __name__ == "__main__":
     main()
 

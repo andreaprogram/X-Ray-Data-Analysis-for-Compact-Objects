@@ -3,7 +3,6 @@
 
 import glob # to search files using paths
 import argparse  # to give an argument when executing the script
-from html import parser
 import re
 
 import xspec as xs
@@ -12,7 +11,7 @@ def main():
 
 # ADD THE ARGUMENTS NEEDED FOR THE SCRIPT TO EXECUTE THE get_ctrt_to_flux FUNCTION:
     parser = argparse.ArgumentParser(description='Script to obtain the conversion ratio of count rate to flux')
- 
+
     parser.add_argument('-src_grp', '--source_groupped', dest='source_groupped', required=True,
                     nargs='+', type=str, help='Path to the grp.pha files for modules a & b (e.g.: "fxt_a_06800000900_ff_01_po_3dc_grp.pha")')
  
@@ -28,7 +27,8 @@ def main():
     parser.add_argument('-g', '--gamma', dest='PhoIndex', required=True,
                         type=float, help='Assumed photon index of the powerlaw')
 
-    
+    args = parser.parse_args()
+
     def get_ctrt_to_flux(source_spec, energy_l, energy_h, nH, PhoIndex, get_unabs):
         xs.Xset.abund = 'wilm'
         xs.Fit.statMethod = 'cstat'

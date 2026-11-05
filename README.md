@@ -21,3 +21,14 @@ Input:
   
 Output:
 - Convertion ratio = Flux/Counts per each module (a/b)
+
+## create_json.py
+Input:
+- name of the output file
+- photon counts to flux ratio convertion
+- area of the src/bkg region
+- counts of the src/bkg region
+- exposure time
+
+Output:
+- .json file containing all the information

@@ -1,6 +1,7 @@
 ## file_prep.py
 Input: 
 - folder containing the level 1 FXT's data
+  
   IMPORTANT: there must be src and bkg region files stored in the fxt/products folder with the naming convention: src_reg/bkg_reg_{product_file_name}
 - ra and dec (in degrees) for given source
 - optional: groupping for the spectrum files (int number)

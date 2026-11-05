@@ -10,3 +10,14 @@ Output:
 - FXT's level 2 data files
 - grp.pha file with the src.pha, bkg.pha, src.rmf, src.arf files to be used in XSPEC.
   By default, the output files will be stored at the same directory one is executing the script at.
+
+## cts_to_flux.py
+Input: 
+- FXT-a and FXT-b grp.pha (no groupping in general)
+- lowest and higher energy values for which to calculate the flux
+- nH
+- gamma (photon index value)
+
+  
+Output:
+- Convertion ratio = Flux/Counts per each module (a/b)

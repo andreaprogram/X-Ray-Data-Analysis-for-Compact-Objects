@@ -14,21 +14,30 @@ Output:
 ## cts_to_flux.py
 Input: 
 - FXT-a and FXT-b grp.pha (no groupping in general)
-- lowest and higher energy values for which to calculate the flux
-- nH
+- lowest and higher energy values for which to calculate the flux (keV)
+- nH  (column density in units of 1e22)
 - gamma (photon index value)
 
   
 Output:
-- Convertion ratio = Flux/Counts per each module (a/b)
+- Convertion ratio = Flux/Counts , per each module (a/b)
 
 ## create_json.py
 Input:
-- name of the output file
+- name of the source
+
+  For each module a/b:
 - photon counts to flux ratio convertion
 - area of the src/bkg region
 - counts of the src/bkg region
 - exposure time
 
 Output:
-- .json file containing all the information
+- upperlimit_data_{source}.json file containing all the information for both modules
+
+## upperlimit.py
+Input:
+- upperlimit_data_{source}.json
+
+Output:
+- X-ray upperlimit for the source 

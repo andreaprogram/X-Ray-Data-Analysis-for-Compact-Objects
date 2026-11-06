@@ -34,7 +34,6 @@ def main():
 
     print(json.dumps(loaded_data, indent=4))
 
-    print(loaded_data["a"]["cts_s"])
 
 if __name__ == "__main__":
     main()

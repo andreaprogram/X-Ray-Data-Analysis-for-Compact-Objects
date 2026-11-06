@@ -4,6 +4,25 @@
 from os import CLD_CONTINUED
 from scipy.special import gammainc, gammaincc, gammaincinv
 
+import argparse
+import json
+
+parser = argparse.ArgumentParser(description='Script to obtain the upperlimit for the source')
+
+parser.add_argument('-d', '--data', dest='data_file', required=True,
+                    nargs='+', type=str, help='Path to the .json files for modules a & b (e.g.: "fxt_a_ASKAP.json")')
+ 
+args = parser.parse_args()
+
+files = args.data_file
+
+for file in files:
+    with open(file, "r", encoding="utf-8") as file:
+        loaded_data = json.load(file)
+
+    
+    
+
 nevts_src_A = 3  # FXT-A source region counts
 alpha_A = 1028.31 / 12152.8  # ratio of source area to background area for FXT-A
 nevts_back_A = 13 # FXT-A background region counts

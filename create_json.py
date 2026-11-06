@@ -8,8 +8,8 @@ def register_data(module):
     return {
         "ctf": float(input("Conversion ratio of count rate to flux (erg*cm^{-2}/count): ")),
         "area_s": float(input("Area of the source region: ")),
-        "area_b": float(input("Area of the background region: ")),
         "cts_s": int(input("Photon counts of the source region: ")),
+        "area_b": float(input("Area of the background region: ")),
         "cts_b": int(input("Photon counts of the background region: ")),
         "exp": float(input("Exposure time of the observation (s): "))
     }

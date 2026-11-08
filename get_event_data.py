@@ -35,14 +35,21 @@ def main():
             
             # print(module, obs_mod, filtr, sat_mode, lev)  
               
-            print(f"------ Event file found: fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}------")
-            print(f"Telescope: FXT-{module}")
-    
             values = ["DATE-OBS", "RA_OBJ", "DEC_OBJ", "EXPOSURE"]
 
-            for v in values:
-                result = subprocess.run([f'ftkeypar {efile} {v} ; pget ftkeypar value'], shell=True, capture_output=True, text=True)
-                print(f"{v}: {result.stdout.strip()}")
+            print(f"------ Event file found: fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}------")
+    
+            with open(f'evt_data_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}.txt', 'w') as textfile:
+                print(f"Telescope: FXT-{module}")
+                print(f"-------Telescope: FXT-{module}--------", file=textfile)
+
+                for v in values:
+                    result = subprocess.run([f'ftkeypar {efile} {v} ; pget ftkeypar value'], shell=True, capture_output=True, text=True)
+                    text_line = f"{v}: {result.stdout.strip()}"
+
+                    print(text_line)
+                    print(text_line, file=textfile)
+        
     
 if __name__ == "__main__":
     main()

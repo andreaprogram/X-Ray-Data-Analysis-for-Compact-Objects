@@ -41,3 +41,11 @@ Input:
 
 Output:
 - X-ray upperlimit for the source 
+
+
+# Current worflow
+1) get_event_data.py
+2) file_prep.py
+3) cts_to_flux.py
+4) create_json.py
+5) upperlimit.py

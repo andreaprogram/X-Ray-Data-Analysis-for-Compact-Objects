@@ -72,7 +72,11 @@ def main():
     
         results.append(f"Conversion ratio for {file}: {convert_ratio} erg*cm^{{-2}}/count")  # store the conversion ratio of count rate to flux
 
-    print("\n--- CONVERSION RATIOS ---")
+    print("\n--- CONVERSION RATIOS FOR FOLLOWING PARAMETERS ---")
+    print(f"Energy range: {args.energy_low} - {args.energy_high} keV")
+    print(f"nH: {args.nH} * 1e22 cm^-2")
+    print(f"Photon index: {args.PhoIndex}")
+    
     for res in results:
         print(res)
         

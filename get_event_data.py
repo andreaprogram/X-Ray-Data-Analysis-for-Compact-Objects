@@ -23,7 +23,7 @@ def main():
         obs_id = (re.search(r'ep_fxt_(\d+)', folder)).group(1)
 
 # FIRST, LOOK FOR THE EVENT FILES IN THE EVENT FOLDER
-        event_files = glob.glob(f"{folder}/fxt/event/*.fits") # e.g. fxt_a_06800000900_ff_01_po_uf_evt_3dc
+        event_files = glob.glob(f"{folder}/fxt/event/*_uf_evt_*.fits") # e.g. fxt_a_06800000900_ff_01_po_uf_evt_3dc
 
         for efile in event_files:
             # for a reference on the naming convention, check FXT Users Guide

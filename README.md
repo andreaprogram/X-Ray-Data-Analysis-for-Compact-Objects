@@ -1,3 +1,11 @@
+## get_event_data.py
+Input: 
+- folder containing the level 1 FXT's data
+
+Output:
+- observation date, ra & dec of the source, exposure time for each event file found.
+  *Can be written in a .txt file
+  
 ## file_prep.py
 Input: 
 - folder containing the level 1 FXT's data

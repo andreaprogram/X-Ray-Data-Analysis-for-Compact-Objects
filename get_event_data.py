@@ -38,18 +38,24 @@ def main():
             values = ["DATE-OBS", "RA_OBJ", "DEC_OBJ", "EXPOSURE"]
 
             print(f"------ Event file found: fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}------")
-    
-            with open(f'evt_data_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}.txt', 'w') as textfile:
-                print(f"Telescope: FXT-{module}")
-                print(f"-------Telescope: FXT-{module}--------", file=textfile)
-
-                for v in values:
-                    result = subprocess.run([f'ftkeypar {efile} {v} ; pget ftkeypar value'], shell=True, capture_output=True, text=True)
-                    text_line = f"{v}: {result.stdout.strip()}"
-
-                    print(text_line)
-                    print(text_line, file=textfile)
+            module_msg = f"Telescope: FXT-{module}"
+            print(module_msg)
         
-    
+            answer = input(f"Do you want to save this data in a text file? (Y/N): ").upper()
+            extracted_data = [] # to store each line of data to record
+
+            for v in values:
+                result = subprocess.run([f'ftkeypar {efile} {v} ; pget ftkeypar value'], shell=True, capture_output=True, text=True)
+                text_line = f"{v}: {result.stdout.strip()}"
+                print(text_line)
+                extracted_data.append(text_line)
+
+            if answer == "Y":
+                with open(f'evt_data_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}.txt', 'w') as textfile:
+                    print(module_msg, file=textfile)
+                    for line in extracted_data:
+                        print(line, file=textfile)
+                print(f"Data saved in evt_data_fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}.txt")
+
 if __name__ == "__main__":
     main()

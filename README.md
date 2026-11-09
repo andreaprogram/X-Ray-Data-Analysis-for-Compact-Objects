@@ -51,7 +51,7 @@ Output:
 - X-ray upperlimit for the source 
 
 
-# Current worflow
+# Current workflow
 1) get_event_data.py
 2) file_prep.py
 3) cts_to_flux.py

@@ -39,9 +39,9 @@ def main():
 
             print(f"------ Event file found: fxt_{module}_{obs_id}_{obs_mod}_{filtr}_{sat_mode}_uf_evt_{lev}------")
             module_msg = f"Telescope: FXT-{module}"
-            print(module_msg)
         
             answer = input(f"Do you want to save this data in a text file? (Y/N): ").upper()
+            print(module_msg)
             extracted_data = [] # to store each line of data to record
 
             for v in values:

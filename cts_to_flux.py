@@ -30,11 +30,17 @@ def main():
     args = parser.parse_args()
 
     def get_ctrt_to_flux(source_spec, energy_l, energy_h, nH, PhoIndex, get_unabs):
-        xs.Xset.abund = 'wilm'
-        xs.Fit.statMethod = 'cstat'
+        xs.Xset.abund = 'wilm'      #updated ISM abundances
+        xs.Fit.statMethod = 'cstat'    #statistic used for parameter estimation of a model when dealing with Poison data 
+
+# LOAD THE SPECTRUM OF A 'MODEL' OR FAKE SOURCE, REMOVING THE BACKGROUND AND IGNORING THE ENERGIES OUTSIDE THE RANGE OF INTEREST
+# we use the data of a fake source to estimate the effective area and response of our telescope if our source was there
         spec = xs.Spectrum(source_spec)
         spec.ignore('**-%.1f %.1f-**'%(energy_l, energy_h))    # ignore the energies outside energy_l - energy_h
         spec.background = None
+
+# DEFINE THE THEORETHICAL MODEL WE WOULD EXPECT THE SOURCE SPECTRUM TO FOLLOW
+
         model = xs.Model('tbabs*cflux*powerlaw')
         if not get_unabs:
             model = xs.Model('cflux*tbabs*powerlaw')
@@ -45,13 +51,16 @@ def main():
         model.powerlaw.PhoIndex = PhoIndex
         model.powerlaw.norm = 1.0
         model.powerlaw.norm.frozen = True       # fix the normalization of the powerlaw to 1.0
+
+# SIMULATE AN OBSERVATION WHERE THE SOURCE FOLLOWS THE MODEL DEFINED ABOVE
         fakeit_kwargs = {}
-        fakeit_kwargs['exposure'] = 10000
+        fakeit_kwargs['exposure'] = 10000 #to ensure a big enough sample for the simulation
         fakeit_kwargs['correction'] = 1.0
         fakeit_kwargs['backExposure'] = 1.0
         fakeit_kwargs['fileName'] = 'temp_fake.pha'
-        xs.AllData.fakeit(1, xs.FakeitSettings(**fakeit_kwargs))
-        spec = xs.AllData(1)
+        xs.AllData.fakeit(1, xs.FakeitSettings(**fakeit_kwargs)) #fakeit matches the modeled observation to the response of the telescope 
+
+        spec = xs.AllData(1) #loading the simulated spectrum
         spec.ignore('**-%.1f %.1f-**'%(energy_l, energy_h))
         spec.show()
         model.show()

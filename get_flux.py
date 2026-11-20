@@ -78,7 +78,7 @@ def main():
     print(f"nH: {nH} * 1e22 cm^-2 (fixed)")
     print(f"Photon index: {gamma:.5f} (-{gamma - gamma_low:.5f}, +{gamma_high - gamma:.5f})")
     print(f"Unabsorbed flux: {flux:.5e} (-{flux - flux_low:.5e}, +{flux_high - flux:.5e}) (erg/cm^2/s)")
-    print(f"Statistic ({xs.Fit.statMethod}) : {xs.Fit.statistic:.2f} with {xs.Fit.dof} d.o.f. -- chi2/nu ~ {xs.Fit.statistic:.2f}/{xs.Fit.dof}")
+    print(f"Statistic ({xs.Fit.statMethod}) : {xs.Fit.statistic:.2f} with {xs.Fit.dof} d.o.f.")
     
 if __name__ == "__main__":
     main()

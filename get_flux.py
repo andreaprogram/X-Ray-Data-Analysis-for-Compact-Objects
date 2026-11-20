@@ -41,6 +41,7 @@ def main():
     data_comm = " ".join([f"{i+1}:{i+1} {f}" for i, f in enumerate(args.source_groupped)]) # data 1:1 src_grp_a.pha data 2:2 src_grp_b.pha
     xs.AllData(data_comm)
 
+    xs.AllData.ignore("bad")
     xs.AllData.ignore(f"**-{energy_l:.1f} {energy_h:.1f}-**")
 
     xs.Model('tbabs*cflux*powerlaw')
@@ -76,7 +77,7 @@ def main():
     print(f"Energy range: {energy_l} - {energy_h} keV")
     print(f"nH: {nH} * 1e22 cm^-2 (fixed)")
     print(f"Photon index: {gamma:.5f} (-{gamma - gamma_low:.5f}, +{gamma_high - gamma:.5f})")
-    print(f"Unabsorbed flux: {flux:.5f} (-{flux - flux_low:.5f}, +{flux_high - flux:.5f}) (erg/cm^2/s)")
+    print(f"Unabsorbed flux: {flux:.5e} (-{flux - flux_low:.5e}, +{flux_high - flux:.5e}) (erg/cm^2/s)")
     print(f"Statistic ({xs.Fit.statMethod}) : {xs.Fit.statistic:.2f} with {xs.Fit.dof} d.o.f.")
     
 if __name__ == "__main__":

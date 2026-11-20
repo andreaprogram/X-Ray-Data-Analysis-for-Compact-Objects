@@ -73,12 +73,12 @@ def main():
     flux_low = 10**log_flux_low
     flux_high = 10**log_flux_high
         
-    print("\n--- CONVERSION RATIOS FOR FOLLOWING PARAMETERS ---")
+    print("\n--- UNABSORBED FLUX FOR FOLLOWING PARAMETERS ---")
     print(f"Energy range: {energy_l} - {energy_h} keV")
     print(f"nH: {nH} * 1e22 cm^-2 (fixed)")
     print(f"Photon index: {gamma:.5f} (-{gamma - gamma_low:.5f}, +{gamma_high - gamma:.5f})")
     print(f"Unabsorbed flux: {flux:.5e} (-{flux - flux_low:.5e}, +{flux_high - flux:.5e}) (erg/cm^2/s)")
-    print(f"Statistic ({xs.Fit.statMethod}) : {xs.Fit.statistic:.2f} with {xs.Fit.dof} d.o.f.")
+    print(f"Statistic ({xs.Fit.statMethod}) : {xs.Fit.statistic:.2f} with {xs.Fit.dof} d.o.f. -- chi2/nu ~ {xs.Fit.statistic:.2f}/{xs.Fit.dof}")
     
 if __name__ == "__main__":
     main()
